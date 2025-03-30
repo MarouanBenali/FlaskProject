@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if is_edit %}Modifier{% else %}Ajouter{% endif %} Langue{% endblock %}
+
+{% block content %}
+<div class="card">
+    <!-- Titre du formulaire : Ajouter ou modifier une langue -->
+    <h1 class="card-title">{% if is_edit %}Modifier{% else %}Ajouter{% endif %} Langue</h1>
+
+    <form method="post" class="form">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            <!-- Champ pour le nom de la langue avec un label et un champ de saisie -->
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control", placeholder="Ex : Français, Anglais, Espagnol, Arabe...") }}
+            {% if form.name.errors %}
+            <div class="invalid-feedback">
+                {% for error in form.name.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Champ pour le niveau de maîtrise avec un label et un champ de saisie -->
+            {{ form.proficiency.label(class="form-label") }}
+            {{ form.proficiency(class="form-control") }}
+            {% if form.proficiency.errors %}
+            <!-- Affichage des erreurs de validation si le champ niveau de maîtrise est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.proficiency.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-actions">
+            <!-- Bouton de soumission pour enregistrer la langue -->
+            {{ form.submit(class="btn btn-primary") }}
+            <!-- Bouton d'annulation pour revenir à la vue du CV -->
+            <a href="{{ url_for('resume.view_resume') }}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

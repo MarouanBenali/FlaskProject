@@ -1,0 +1,367 @@
+/* Corps de la page */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f4;  /* Couleur de fond de la page */
+  color: #333;  /* Couleur du texte */
+}
+
+/* Conteneur principal */
+.container {
+  width: 90%;  /* Largeur du conteneur */
+  display: inline;
+  margin: auto;
+}
+
+/* Barre de navigation */
+.navbar {
+  background: linear-gradient(135deg, #ff6b6b, #2767ab);  /* Dégradé de fond */
+  padding: 10px 0 16px 0;
+  display: flex;
+  position: sticky;  /* Fixe la barre de navigation en haut de la page */
+  z-index: 1000;  /* Assure que la barre de navigation reste au-dessus des autres éléments */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Ombre portée */
+  border-radius: 0 0 30px 30px;  /* Bords arrondis */
+  margin-bottom: 30px;
+}
+
+/* Liens et icône de la barre de navigation */
+.navbar .navbar-brand {
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.plus-icon {
+  font-size: 1.2em;
+  color: #ffd700;  /* Couleur dorée pour l'icône */
+}
+
+/* Liens de navigation */
+.nav-links,
+.nav-auth {
+  list-style: none;
+  display: inline;
+}
+
+.nav-links li,
+.nav-auth li {
+  display: inline;
+}
+
+.nav-links a,
+.nav-auth a {
+  color: #fff;  /* Couleur des liens */
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px;
+  margin-right: 50px;
+  transition: 0.3s;  /* Transition douce pour l'effet au survol */
+}
+
+.nav-links a:hover,
+.nav-auth a:hover {
+  background: rgba(255, 255, 255, 0.2);  /* Fond légèrement transparent au survol */
+  border-radius: 5px;  /* Coins arrondis au survol */
+}
+
+/* Menu déroulant */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: #fff;
+  min-width: 200px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  right: 0;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;  /* Affichage du menu au survol */
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 8px;
+  color: #333;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.dropdown-content a:hover {
+  background: #f4f4f4;  /* Fond légèrement plus clair au survol */
+}
+
+/* Image du profil */
+.nav-profile-img {
+  width: 40px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;  /* Rendre l'image circulaire */
+  object-fit: cover;
+}
+
+/* Alertes */
+.alert {
+  padding: 10px;
+  margin: 10px auto;
+  border-radius: 15px;
+  text-align: center;
+  width: 50%;
+  font-weight: bold;
+  color: #fff;
+}
+
+.alert-success {
+  background: #2ecc71;  /* Couleur verte pour les alertes de succès */
+}
+.alert-danger {
+  background: #e74c3c;  /* Couleur rouge pour les alertes d'erreur */
+}
+.alert-warning {
+  background: #f1c40f;  /* Couleur jaune pour les alertes d'avertissement */
+}
+.alert-info {
+  background: #2767abe2;  /* Couleur bleue pour les alertes d'information */
+}
+
+/* Footer (pied de page) */
+.footer {
+  color: rgb(72, 71, 71);
+}
+
+.footer-content {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 3rem;
+}
+
+.social-links a {
+  color: rgb(0, 0, 0);
+  font-size: 1.5rem;
+}
+
+.social-links a:hover {
+  color: blue;
+  transform: translateY(-2px);  /* Effet de déplacement au survol */
+}
+
+/* Formulaire */
+.form-label {
+  display: block;
+  margin: 0.5rem 0;
+  font-weight: 600;
+}
+
+.form-control {
+  width: 95%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #a09b9b;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #ff6b6b;  /* Changer la couleur de la bordure au focus */
+  box-shadow: 0 0 0 1.5px rgba(39, 69, 201, 0.687);
+}
+
+/* Boutons */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background-color: #2767ab;  /* Couleur bleue pour le fond */
+  color: white;
+  border: none;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: rgba(0, 0, 0, 0.437);  /* Changement de couleur au survol */
+  transform: translateY(-2px);  /* Effet de déplacement au survol */
+  box-shadow: 0 0 0 1.5px rgba(39, 69, 201, 0.687);
+}
+
+/* Cartes */
+.card {
+  background: white;
+  width: 85%;
+  margin: auto;
+  border-radius: 20px;
+  box-shadow: 0 0 0 1.5px rgba(39, 69, 201, 0.687);
+  border: 1px solid #ff6b6b;  /* Bordure rouge pour la carte */
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.card-title {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #ff6b6b;  /* Couleur rouge pour le titre */
+  font-size: 1.8rem;
+}
+
+/* Profil utilisateur */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #ff6b6b;  /* Bordure rouge sous le titre */
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.profile-image-container {
+  text-align: center;
+}
+
+.profile-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;  /* Image circulaire */
+  object-fit: cover;
+  border: 4px solid #2767ab;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.profile-image-placeholder {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;  /* Remplacer l'image par un cercle en dégradé */
+  background: linear-gradient(135deg, #ff6b6b, #2767ab);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  color: white;
+  font-size: 3rem;
+}
+
+.profile-details h2 {
+  font-size: 1.8rem;
+  color: #2767ab;  /* Couleur bleue pour le titre */
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.username {
+  color: #565d63;
+  font-size: 1rem;
+  text-align: center;
+  display: block;
+}
+
+.profile-section {
+  background: rgb(240, 237, 237);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.profile-section h3 {
+  color: #ff6b6b;
+  font-size: 1.3rem;
+}
+
+.profile-info-list {
+  list-style: none;
+  padding: 0;
+}
+
+.profile-info-list li {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #495057;
+}
+
+.profile-info-list i {
+  color: #2767ab;
+  width: 20px;
+  text-align: center;
+}
+
+.profile-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.profile-links li {
+  margin-bottom: 0.5rem;
+}
+
+.profile-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  color: #495057;
+  text-decoration: none;
+}
+
+.profile-links a:hover {
+  background: #e9ecef;
+  transform: translateY(-2px);  /* Effet au survol */
+}
+
+.profile-links i {
+  color: #2767ab;
+  font-size: 1.2rem;
+}
+
+.profile-actions {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+/* Effets de transition pour les éléments */
+.profile-image,
+.profile-links a,
+.btn {
+  transition: all 0.3s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.05);  /* Effet d'agrandissement au survol */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.invalid-feedback {
+  color: red;  /* Couleur rouge pour les messages d'erreur */
+}

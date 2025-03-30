@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block title %}Curriculum Vitae{% endblock %}
+
+{% block content %}
+<div class="resume-container">
+    <!-- En-tête du CV avec titre et actions -->
+    <div class="resume-header">
+        <h1>{{ resume.title }}</h1>
+        <div class="resume-actions">
+            <!-- Boutons pour modifier ou imprimer le CV -->
+            <a href="{{ url_for('resume.edit_resume') }}" class="btn btn-primary">Modifier le CV</a>
+            <a href="{{ url_for('resume.print_resume') }}" class="btn btn-secondary" target="_blank">Imprimer</a>
+        </div>
+    </div>
+
+    <!-- Section des informations de l'utilisateur -->
+    <div class="resume-section user-info">
+        <div class="user-header">
+            <!-- Affichage de l'image de profil de l'utilisateur, si elle existe -->
+            {% if current_user.profile_image %}
+            <img src="{{ url_for('static', filename='uploads/' + current_user.profile_image) }}" alt="{{ current_user.username }}" class="profile-image">
+            {% endif %}
+            <div class="user-details">
+                <h2>{{ current_user.first_name }} {{ current_user.last_name }}</h2>
+                <p class="user-contact">
+                    <!-- Affichage des informations de contact : email, téléphone, adresse -->
+                    {% if current_user.email %}<span><i class="fas fa-envelope"></i> {{ current_user.email }}</span>{% endif %}
+                    {% if current_user.phone %}<span><i class="fas fa-phone"></i> {{ current_user.phone }}</span>{% endif %}
+                    {% if current_user.address %}<span><i class="fas fa-map-marker-alt"></i> {{ current_user.address }}</span>{% endif %}
+                </p>
+                <div class="user-links">
+                    <!-- Affichage des liens sociaux de l'utilisateur (site web, LinkedIn, GitHub, Twitter) -->
+                    {% for link, icon in {'website': 'fas fa-globe', 'linkedin': 'fab fa-linkedin', 'github': 'fab fa-github', 'twitter': 'fab fa-twitter'}.items() %}
+                        {% if current_user[link] %}
+                            <a class="{{ icon }}" href="{{ current_user[link] }}" target="_blank"> {{ current_user[link]|replace('https://www.', '') }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+        <!-- Section résumé si elle existe -->
+        {% if resume.summary %}
+        <div class="resume-summary">
+            <h3>Résumé</h3>
+            <p>{{ resume.summary }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Section Éducation -->
+    <div class="resume-section">
+        <div class="section-header">
+            <h3>Éducation</h3>
+            <a href="{{ url_for('resume.add_education') }}" class="btn btn-sm btn-primary">Ajouter</a>
+        </div>
+        {% if education %}
+        <div class="section-content">
+            {% for edu in education %}
+            <div class="resume-item">
+                <div class="item-header">
+                    <h4>{{ edu.degree }} en {{ edu.field_of_study }}</h4>
+                    <div class="item-actions">
+                        <!-- Boutons pour modifier ou supprimer un élément d'éducation -->
+                        <a href="{{ url_for('resume.edit_education', id=edu.id) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                        <form action="{{ url_for('resume.delete_education', id=edu.id) }}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Affichage des informations d'éducation -->
+                <p class="date"> <strong>{{ edu.institution }}</strong> : {{ edu.start_date.strftime('%Y-%m') }} - {% if edu.end_date %}{{ edu.end_date.strftime('%Y-%m') }}{% else %}Actuel{% endif %}</p>
+                {% if edu.description %}
+                <p>{{ edu.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-items">Aucune éducation ajoutée. <a href="{{ url_for('resume.add_education') }}">Ajoutez-en une maintenant</a></p>
+        {% endif %}
+    </div>
+
+    <!-- Section Expérience Professionnelle -->
+    <div class="resume-section">
+        <div class="section-header">
+            <h3>Expérience Professionnelle</h3>
+            <a href="{{ url_for('resume.add_experience') }}" class="btn btn-sm btn-primary">Ajouter</a>
+        </div>
+        {% if experience %}
+        <div class="section-content">
+            {% for exp in experience %}
+            <div class="resume-item">
+                <div class="item-header">
+                    <h4>{{ exp.position }}</h4>
+                    <div class="item-actions">
+                        <!-- Boutons pour modifier ou supprimer une expérience -->
+                        <a href="{{ url_for('resume.edit_experience', id=exp.id) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                        <form action="{{ url_for('resume.delete_experience', id=exp.id) }}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Affichage des informations d'expérience professionnelle -->
+                <p class="date"> <strong>{{ exp.company }}{% if exp.location %} - {{ exp.location }}{% endif %}</strong> : {{ exp.start_date.strftime('%Y-%m') }} - {% if exp.current %}Actuel{% elif exp.end_date %}{{ exp.end_date.strftime('%Y-%m') }}{% endif %}</p>
+                {% if exp.description %}
+                <p>{{ exp.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-items">Aucune expérience ajoutée. <a href="{{ url_for('resume.add_experience') }}">Ajoutez-en une maintenant</a></p>
+        {% endif %}
+    </div>
+
+    <!-- Section Projets -->
+    <div class="resume-section">
+        <div class="section-header">
+            <h3>Projets</h3>
+            <a href="{{ url_for('resume.add_project') }}" class="btn btn-sm btn-primary">Ajouter</a>
+        </div>
+        {% if projects %}
+        <div class="section-content">
+            {% for project in projects %}
+            <div class="resume-item">
+                <div class="item-header">
+                    <h4>{{ project.title }}</h4>
+                    <div class="item-actions">
+                        <!-- Boutons pour modifier ou supprimer un projet -->
+                        <a href="{{ url_for('resume.edit_project', id=project.id) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                        <form action="{{ url_for('resume.delete_project', id=project.id) }}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Affichage des dates et de la description du projet -->
+                {% if project.start_date or project.end_date %}
+                <p class="date">
+                    {% if project.start_date %}{{ project.start_date.strftime('%Y-%m') }}{% endif %}
+                    {% if project.end_date %} - {{ project.end_date.strftime('%Y-%m') }}{% endif %}
+                </p>
+                {% endif %}
+                {% if project.description %}
+                <p>{{ project.description }}</p>
+                {% endif %}
+                {% if project.url %}
+                <p><a href="{{ project.url }}" target="_blank">Lien vers le projet</a></p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-items">Aucun projet ajouté. <a href="{{ url_for('resume.add_project') }}">Ajoutez-en un maintenant</a></p>
+        {% endif %}
+    </div>
+
+    <!-- Section Compétences -->
+    <div class="resume-section">
+        <div class="section-header">
+            <h3>Compétences</h3>
+            <a href="{{ url_for('resume.add_skill') }}" class="btn btn-sm btn-primary">Ajouter</a>
+        </div>
+        {% if skills %}
+        <div class="section-content skills-content">
+            {% for skill in skills %}
+            <div class="skill-item">
+                <span class="skill-name">{{ skill.name }}</span>
+                <!-- Affichage du niveau de la compétence sous forme de points -->
+                {% if skill.level %}
+                <div class="skill-level">
+                    {% for i in range(1, 6) %}
+                    <span class="level-dot {% if i <= skill.level %}active{% endif %}"></span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="skill-actions">
+                    <!-- Boutons pour modifier ou supprimer une compétence -->
+                    <a href="{{ url_for('resume.edit_skill', id=skill.id) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                    <form action="{{ url_for('resume.delete_skill', id=skill.id) }}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-items">Aucune compétence ajoutée. <a href="{{ url_for('resume.add_skill') }}">Ajoutez-en une maintenant</a></p>
+        {% endif %}
+    </div>
+
+    <!-- Section Langues -->
+    <div class="resume-section">
+        <div class="section-header">
+            <h3>Langues</h3>
+            <a href="{{ url_for('resume.add_language') }}" class="btn btn-sm btn-primary">Ajouter</a>
+        </div>
+        {% if languages %}
+        <div class="section-content">
+            {% for language in languages %}
+            <div class="resume-item">
+                <div class="item-header">
+                    <h4>{{ language.name }}</h4>
+                </div>
+                <!-- Affichage du niveau de langue -->
+                <p class="level">{{ language.level }}</p>
+                <div class="item-actions">
+                    <!-- Boutons pour modifier ou supprimer une langue -->
+                    <a href="{{ url_for('resume.edit_language', id=language.id) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                    <form action="{{ url_for('resume.delete_language', id=language.id) }}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-items">Aucune langue ajoutée. <a href="{{ url_for('resume.add_language') }}">Ajoutez-en une maintenant</a></p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

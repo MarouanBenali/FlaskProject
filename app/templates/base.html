@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Système de CV{% endblock %}</title>  <!-- Titre de la page, défini par un bloc dynamique -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"><!-- Lien vers les feuilles de style CSS principales -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/resume.css') }}"><!-- Lien vers la feuille de style CSS spécifique au CV -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><!-- Lien vers la bibliothèque FontAwesome pour les icônes sociales -->
+    {% block styles %}{% endblock %} <!-- Bloc de styles personnalisés -->
+</head>
+<body>
+    <!-- Barre de navigation principale -->
+    <nav class="navbar">
+        <div class="container">
+            <!-- Lien vers la page d'affichage du CV -->
+            <a class="navbar-brand" href="{{ url_for('resume.view_resume') }}">CVPro <span class="plus-icon">+</span></a>
+            <ul class="nav-links" id="navbarNav">
+                <!-- Affichage des liens uniquement si l'utilisateur est connecté -->
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('resume.view_resume') }}">CV</a></li>
+                <li><a href="{{ url_for('profile.view_profile') }}">Profil</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav-auth">
+                <!-- Lien vers la page d'accueil -->
+                <li><a href="{{ url_for('home') }}">Accueil</a></li>
+                {% if current_user.is_authenticated %}
+                <li class="dropdown">
+                    <a href="#" class="dropbtn"> 
+                        <!-- Affichage de l'image de profil si elle est disponible -->
+                        {% if current_user.profile_image %}
+                        <img src="{{ url_for('static', filename='uploads/' + current_user.profile_image) }}" class="nav-profile-img">
+                        {% endif %}
+                        {{ current_user.username }}
+                    </a>
+                    <!-- Menu déroulant avec des options de profil -->
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('profile.profile') }}">Modifier le profil</a>
+                        <a href="{{ url_for('auth.logout') }}">Se déconnecter</a>
+                    </div>
+                </li>
+                {% else %}
+                <!-- Liens pour la connexion et l'inscription si l'utilisateur n'est pas connecté -->
+                <li><a href="{{ url_for('auth.login') }}">Se connecter</a></li>
+                <li><a href="{{ url_for('auth.register') }}">Créer un compte</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <!-- Gestion des messages flash, utilisés pour afficher des notifications -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <!-- Contenu principal de la page, défini par un bloc dynamique -->
+        {% block content %}{% endblock %}
+    </div>
+    
+    <!-- Pied de page avec des liens vers les réseaux sociaux -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Application de gestion des utilisateurs</p>
+            <div class="social-links">
+                <!-- Liens vers les icônes de réseaux sociaux -->
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script JavaScript pour cacher les messages flash après un délai -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let flashMessages = document.querySelectorAll(".alert");
+            flashMessages.forEach(function (message) {
+                setTimeout(function () {
+                    message.style.transition = "opacity 0.5s";  // Transition de disparition
+                    message.style.opacity = "0";  // Réduction de l'opacité
+                    setTimeout(() => message.remove(), 500);  // Suppression du message après la transition
+                }, 3000);  // Délai avant de commencer la transition
+            });
+        });
+    </script>
+    {% block scripts %}{% endblock %}<!-- Bloc de scripts personnalisés -->
+</body>
+</html>

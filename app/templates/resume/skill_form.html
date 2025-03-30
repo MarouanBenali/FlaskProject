@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}{% if is_edit %}Modifier{% else %}Ajouter{% endif %} une compétence{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1 class="card-title">{% if is_edit %}Modifier{% else %}Ajouter{% endif %} une compétence</h1>
+
+    <form method="post" class="form">
+        {{ form.hidden_tag() }}
+        
+        <!-- Champ pour le nom de la compétence -->
+        <div class="form-group">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control", placeholder="Ex : Développement Web, Gestion de projets, Analyse de données, Leadership...") }}
+            {% if form.name.errors %}
+            <div class="invalid-feedback">
+                {% for error in form.name.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ pour le niveau de la compétence -->
+        <div class="form-group">
+            {{ form.level.label(class="form-label") }}
+            {{ form.level(class="form-control") }}
+            {% if form.level.errors %}
+            <div class="invalid-feedback">
+                {% for error in form.level.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Boutons d'action : soumettre ou annuler -->
+        <div class="form-actions">
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('resume.view_resume') }}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

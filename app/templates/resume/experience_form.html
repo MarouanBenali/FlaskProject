@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if is_edit %}Modifier{% else %}Ajouter{% endif %} Expérience{% endblock %}
+
+{% block content %}
+<div class="card">
+    <!-- Titre du formulaire : Ajout ou modification d'une expérience professionnelle -->
+    <h1 class="card-title">{% if is_edit %}Modifier{% else %}Ajouter{% endif %} Expérience</h1>
+    
+    <form method="post" class="form">
+        <!-- Tag caché pour la protection CSRF -->
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            <!-- Champ pour l'entreprise avec un label et un champ de saisie -->
+            {{ form.company.label(class="form-label") }}
+            {{ form.company(class="form-control", placeholder="Ex : Google, Microsoft, Startup X...") }}
+            {% if form.company.errors %}
+            <!-- Affichage des erreurs de validation si le champ entreprise est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.company.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Champ pour le poste avec un label et un champ de saisie -->
+            {{ form.position.label(class="form-label") }}
+            {{ form.position(class="form-control", placeholder="Ex : Ingénieur Logiciel, Responsable Marketing, Développeur Web...") }}
+            {% if form.position.errors %}
+            <!-- Affichage des erreurs de validation si le champ poste est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.position.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Champ pour la localisation avec un label et un champ de saisie -->
+            {{ form.location.label(class="form-label") }}
+            {{ form.location(class="form-control", placeholder="Ex : Casablanca, Paris, Tanger...") }}
+            {% if form.location.errors %}
+            <!-- Affichage des erreurs de validation si le champ localisation est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.location.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Champ pour la date de début avec un label et un champ de saisie de type date -->
+            {{ form.start_date.label(class="form-label") }}
+            {{ form.start_date(class="form-control", type="date") }}
+            {% if form.start_date.errors %}
+            <!-- Affichage des erreurs de validation si la date de début est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.start_date.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Case à cocher pour indiquer si l'expérience est en cours -->
+            {{ form.current.label }}
+            {{ form.current(class="form-check-input") }}
+        </div>
+        
+        <div class="form-group" id="end-date-group">
+            <!-- Champ pour la date de fin avec un label et un champ de saisie de type date -->
+            {{ form.end_date.label(class="form-label") }}
+            {{ form.end_date(class="form-control", type="date") }}
+            {% if form.end_date.errors %}
+            <!-- Affichage des erreurs de validation si la date de fin est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.end_date.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Champ pour la description du poste avec un label et un champ de texte -->
+            {{ form.description.label(class="form-label") }}
+            {{ form.description(class="form-control", rows=3) }}
+            {% if form.description.errors %}
+            <!-- Affichage des erreurs de validation si la description est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.description.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-actions">
+            <!-- Bouton de soumission pour enregistrer l'expérience -->
+            {{ form.submit(class="btn btn-primary") }}
+            <!-- Bouton d'annulation pour revenir à la vue du CV -->
+            <a href="{{ url_for('resume.view_resume') }}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentCheckbox = document.getElementById('current');
+        const endDateGroup = document.getElementById('end-date-group');
+        
+        // Fonction pour masquer/afficher le champ de la date de fin en fonction de l'état de la case à cocher "en cours"
+        function toggleEndDate() {
+            if (currentCheckbox.checked) {
+                endDateGroup.style.display = 'none'; // Masquer la date de fin si l'expérience est en cours
+            } else {
+                endDateGroup.style.display = 'block'; // Afficher la date de fin si l'expérience n'est pas en cours
+            }
+        }
+        
+        // Écouter le changement de l'état de la case à cocher pour gérer l'affichage de la date de fin
+        currentCheckbox.addEventListener('change', toggleEndDate);
+        toggleEndDate(); // Initialiser l'affichage au chargement de la page
+    });
+</script>
+{% endblock %}

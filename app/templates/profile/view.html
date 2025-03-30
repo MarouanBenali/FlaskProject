@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Card Container for Profile -->
+    <div class="card">
+        <div class="profile-header">
+            <h1 class="card-title">Profil</h1>
+            <!-- Link to modify the profile -->
+            <a href="{{ url_for('profile.profile') }}" class="btn btn-primary">Modifier le profil</a>
+        </div>
+        
+        <div class="profile-content">
+            <!-- Profile Image Section -->
+            <div class="profile-image-container">
+                {% if current_user.profile_image %}
+                <!-- Display the user's profile image if it exists -->
+                <img src="{{ url_for('static', filename='uploads/' + current_user.profile_image) }}" alt="{{ current_user.username }}" class="profile-image">
+                {% else %}
+                <!-- Display a placeholder icon if the user doesn't have a profile image -->
+                <div class="profile-image-placeholder">
+                    <i class="fas fa-user"></i>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="profile-details">
+                <!-- User's Full Name -->
+                <h2>{{ current_user.first_name }} {{ current_user.last_name }}</h2>
+                <!-- Display the username with the @ symbol -->
+                <p class="username">@{{ current_user.username }}</p>
+                
+                <div class="profile-section">
+                    <h3>Informations de contact</h3>
+                    <ul class="profile-info-list">
+                        <!-- Display the user's email address -->
+                        <li><i class="fas fa-envelope"></i> {{ current_user.email }}</li>
+                        {% if current_user.phone %}
+                        <!-- Display the user's phone number if available -->
+                        <li><i class="fas fa-phone"></i> {{ current_user.phone }}</li>
+                        {% endif %}
+                        {% if current_user.address %}
+                        <!-- Display the user's address if available -->
+                        <li><i class="fas fa-map-marker-alt"></i> {{ current_user.address }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                
+                {% if current_user.bio %}
+                <!-- Display the user's bio if available -->
+                <div class="profile-section">
+                    <h3>À propos de moi</h3>
+                    <p>{{ current_user.bio }}</p>
+                </div>
+                {% endif %}
+                
+                <div class="profile-section">
+                    <h3>Liens</h3>
+                    <ul class="profile-links">
+                        {% if current_user.website %}
+                        <!-- Display the user's website if available -->
+                        <li><a href="{{ current_user.website }}" target="_blank"><i class="fas fa-globe"></i> Site Web</a></li>
+                        {% endif %}
+                        {% if current_user.linkedin %}
+                        <!-- Display the user's LinkedIn profile if available -->
+                        <li><a href="{{ current_user.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                        {% endif %}
+                        {% if current_user.github %}
+                        <!-- Display the user's GitHub profile if available -->
+                        <li><a href="{{ current_user.github }}" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+                        {% endif %}
+                        {% if current_user.twitter %}
+                        <!-- Display the user's Twitter profile if available -->
+                        <li><a href="{{ current_user.twitter }}" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="profile-actions">
+            <!-- Button to view the user's resume -->
+            <a href="{{ url_for('resume.view_resume') }}" class="btn btn-primary">Voir le CV</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

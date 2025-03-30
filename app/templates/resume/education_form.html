@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if is_edit %}Modifier{% else %}Ajouter{% endif %} Éducation{% endblock %}
+
+{% block content %}
+<div class="card">
+    <!-- Titre du formulaire : Ajout ou modification de l'éducation -->
+    <h1 class="card-title">{% if is_edit %}Modifier{% else %}Ajouter{% endif %} Éducation</h1>
+    
+    <form method="post" class="form">
+        <!-- Tag caché pour la protection CSRF -->
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            <!-- Champ pour l'institution avec un label et un champ de saisie -->
+            {{ form.institution.label(class="form-label") }}
+            {{ form.institution(class="form-control", placeholder="Université Mohammed V, Université Paris-Saclay, ISG Tunis...") }}
+            {% if form.institution.errors %}
+            <!-- Affichage des erreurs de validation si l'institution est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.institution.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Champ pour le diplôme avec un label et un champ de saisie -->
+            {{ form.degree.label(class="form-label") }}
+            {{ form.degree(class="form-control", placeholder="Licence en Informatique, Master en Génie Logiciel, Doctorat en IA...") }}
+            {% if form.degree.errors %}
+            <!-- Affichage des erreurs de validation si le diplôme est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.degree.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Champ pour le domaine d'étude avec un label et un champ de saisie -->
+            {{ form.field_of_study.label(class="form-label") }}
+            {{ form.field_of_study(class="form-control", placeholder="Informatique, Génie Civil, Sciences et Technologies...") }}
+            {% if form.field_of_study.errors %}
+            <!-- Affichage des erreurs de validation si le domaine d'étude est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.field_of_study.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Champ pour la date de début avec un label et un champ de saisie de type date -->
+            {{ form.start_date.label(class="form-label") }}
+            {{ form.start_date(class="form-control", type="date") }}
+            {% if form.start_date.errors %}
+            <!-- Affichage des erreurs de validation si la date de début est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.start_date.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Champ pour la date de fin avec un label et un champ de saisie de type date -->
+            {{ form.end_date.label(class="form-label") }}
+            {{ form.end_date(class="form-control", type="date") }}
+            {% if form.end_date.errors %}
+            <!-- Affichage des erreurs de validation si la date de fin est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.end_date.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Champ pour la description avec un label et un champ de texte -->
+            {{ form.description.label(class="form-label") }}
+            {{ form.description(class="form-control", rows=3) }}
+            {% if form.description.errors %}
+            <!-- Affichage des erreurs de validation si la description est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.description.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-actions">
+            <!-- Bouton de soumission pour enregistrer les informations d'éducation -->
+            {{ form.submit(class="btn btn-primary") }}
+            <!-- Bouton d'annulation pour revenir à la vue du CV -->
+            <a href="{{ url_for('resume.view_resume') }}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

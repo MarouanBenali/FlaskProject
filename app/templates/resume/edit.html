@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if is_new %}Créer{% else %}Modifier{% endif %} le CV{% endblock %}
+
+{% block content %}
+<div class="card">
+    <!-- Titre du formulaire : Création ou modification du CV -->
+    <h1 class="card-title">{% if is_new %}Créer{% else %}Modifier{% endif %} le CV</h1>
+    
+    <form method="post" class="form">
+        <!-- Tag caché pour la protection CSRF -->
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            <!-- Champ pour le titre du CV avec un label et un champ de saisie -->
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control" , placeholder="Ex : Développeur Full Stack, Marketing Digital, Développeur Web, Chef de Produit") }}
+            {% if form.title.errors %}
+            <!-- Affichage des erreurs de validation si le champ titre est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.title.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <!-- Champ pour le résumé du CV avec un label et un champ de texte -->
+            {{ form.summary.label(class="form-label") }}
+            {{ form.summary(class="form-control", rows=5 , placeholder="Resume profil..") }}
+            {% if form.summary.errors %}
+            <!-- Affichage des erreurs de validation si le champ résumé est invalide -->
+            <div class="invalid-feedback">
+                {% for error in form.summary.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-actions">
+            <!-- Bouton de soumission pour enregistrer le CV -->
+            {{ form.submit(class="btn btn-primary") }}
+            <!-- Bouton d'annulation pour revenir à la vue du CV -->
+            <a href="{{ url_for('resume.view_resume') }}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

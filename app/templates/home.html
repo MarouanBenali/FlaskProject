@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Section d'en-tête avec un titre et une description -->
+    <header class="header">
+        <div class="header-content">
+            <h1>Créez votre CV</h1>
+            <p class="paragraphe">Créez facilement un CV professionnel en quelques minutes.</p>
+        </div>
+    </header>
+
+    <!-- Section des fonctionnalités du site -->
+    <section class="features">
+        <h2 class="section-title">Fonctionnalités</h2>
+        <div class="feature-container">
+            <!-- Chaque fonctionnalité est présentée dans une carte -->
+            <div class="feature">
+                <h3>Facile à utiliser</h3>
+                <p>Notre site propose une interface simple et intuitive pour vous aider à créer votre CV en quelques clics.</p>
+            </div>
+            <div class="feature">
+                <h3>Modèles préconçus</h3>
+                <p>Choisissez parmi une large gamme de modèles professionnels adaptés à vos besoins.</p>
+            </div>
+            <div class="feature">
+                <h3>Prêt à imprimer</h3>
+                <p>Vous pouvez télécharger votre CV au format PDF, prêt à être imprimé.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section de l'appel à l'action pour commencer à utiliser le site -->
+    <section class="cta">
+        <h2 class="section-title">Commencez maintenant</h2>
+        <p>Créez votre CV facilement en vous inscrivant ou en vous connectant.</p>
+        <div class="cta-buttons">
+            <!-- Boutons d'appel à l'action pour l'inscription et la connexion -->
+            <a href="auth/register" class="btn">Créer un compte</a>
+            <a href="auth/login" class="btn btn-secondary">Se connecter</a>
+        </div>
+    </section>
+
+    <!-- Styles spécifiques à cette page -->
+    <style>
+        /* Style de l'en-tête avec un gradient de couleur et des effets de texte */
+        .header {
+            background: linear-gradient(135deg, #2767ab, #ff6b6b);
+            text-shadow: 2px 2px 4px #ff6b6b ,2px 2px 4px #2767ab ;
+            color: #ffd700;
+            width: 50%;
+            margin: auto;
+            text-align: center;
+            padding: 50px 20px;
+            border-radius: 20px 200px 20px 200px; /* Bord arrondi asymétrique */
+        }
+
+        /* Style du titre principal dans l'en-tête */
+        .header-content h1 {
+            font-size: 2.3em;
+            margin: 0;
+        }
+
+        /* Style pour la description dans l'en-tête */
+        .paragraphe{
+            color: white;
+            font-weight: 900;
+        }
+
+        /* Style général pour la section des fonctionnalités */
+        .features {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        /* Style pour les titres de sections */
+        .section-title {
+            font-size: 2em;
+            color: #2767ab;
+        }
+
+        /* Conteneur des fonctionnalités avec une disposition flexible */
+        .feature-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap; /* Permet aux éléments de se réorganiser sur plusieurs lignes si nécessaire */
+        }
+
+        /* Style de chaque carte de fonctionnalité */
+        .feature {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce autour des cartes */
+            width: 300px;
+        }
+
+        /* Style pour la section CTA (Call to Action) */
+        .cta {
+            text-align: center;
+            padding: 50px 20px;
+            background: #f4f4f4;
+            border-radius: 30px; /* Bord arrondi pour un aspect moderne */
+        }
+
+        /* Conteneur des boutons d'appel à l'action */
+        .cta-buttons {
+            margin-top: 20px;
+        }
+
+        /* Style des boutons principaux */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: #2767ab;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        /* Effet au survol des boutons */
+        .btn:hover {
+            background: #ff6b6b;
+        }
+
+        /* Style pour le bouton secondaire (connexion) */
+        .btn-secondary {
+            background: #555;
+        }
+
+        /* Effet au survol du bouton secondaire */
+        .btn-secondary:hover {
+            background: #333;
+        }
+    </style>
+{% endblock %}
